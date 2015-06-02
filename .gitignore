@@ -19,7 +19,8 @@ icon.jpg
 # Editors
 .idea/
 gen/
-out/
+out/META-INF
+out/production
 project.properties
 .project
 .classpath
