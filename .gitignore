@@ -1,0 +1,45 @@
+# OSX + Windows bullshit
+.DS_Store
+.localized
+__MACOSX
+Thumb.db
+
+# NodeJS + PHP  applications
+node_modules/
+npm-debug.log
+bootstrap/compiled.php
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+url
+icon.jpg
+/index.html
+
+# Editors
+.idea/
+gen/
+out/
+project.properties
+.project
+.classpath
+.sublime-project
+.sublime-workspace
+
+# Deployment
+dploy.yml
+ftpsync.settings
+
+# VMs
+.vagrant/
+packer_cache/
+*.box
+
+# GIT, SVN
+.git
+.svn
+CONTRIBUTING.md/index.html
+
+# Others
+.hg
+CVS
