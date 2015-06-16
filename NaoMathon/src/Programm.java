@@ -12,10 +12,10 @@ public class Programm {
 
   public static void main (String Args[]){
     try {
+      System.out.println("FONCTION ON");
       Session session = new Session();
       session.connect("tcp://" + NAO_IP + ":9559").sync(500, TimeUnit.MILLISECONDS);
       Object tts = session.service("ALTextToSpeech");
-
 
       boolean ping = tts.<Boolean>call("ping").get();
       if (!ping) {
