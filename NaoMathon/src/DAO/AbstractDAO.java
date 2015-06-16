@@ -7,10 +7,6 @@ import java.sql.Connection;
  */
 public abstract class AbstractDAO {
 
-  public Connection connection;
+  public Connection connection = SGBDConnexion.getInstance();;
 
-  public AbstractDAO() throws ClassNotFoundException {
-    Class.forName("com.mysql.jdbc.Driver");
-    this.connection = SGBDConnexion.getInstance();
-  }
 }

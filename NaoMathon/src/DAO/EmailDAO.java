@@ -9,7 +9,7 @@ public class EmailDAO extends AbstractDAO{
 
   private final String GET_EMAIL_BY_NAME_QUERY = "SELECT Name, Email_adress FROM emails WHERE name = ?;";
 
-  private final String GET_ALL_EMAILS_INFORMATION = "SELECT * FROM emails";
+  private final String GET_ALL_EMAILS_INFORMATION_QUERY = "SELECT * FROM emails";
 
   public EmailDAO() throws ClassNotFoundException {
     super();
@@ -18,18 +18,20 @@ public class EmailDAO extends AbstractDAO{
   public PersonDTO getEmailFromName(String name){
     PersonDTO person = null;
     try {
-      PreparedStatement statement = connection.prepareStatement("select * from emails");
-      //statement.setString(1, name);
-      ResultSet resultSet = statement.executeQuery(this.GET_EMAIL_BY_NAME_QUERY);
-      System.out.println(resultSet.getFetchSize());
-      if(resultSet.getFetchSize() !=0) {
+      PreparedStatement statement = connection.prepareStatement(GET_EMAIL_BY_NAME_QUERY);
+      statement.setString(1, name);
+      ResultSet resultSet = statement.executeQuery();
+
+      String nameBDD = null;
+      String email = null;
+      if (resultSet.isBeforeFirst() ) {
         while (resultSet.next()) {
-          person.setName(resultSet.getString("Name"));
-          person.setName(resultSet.getString("Email_adress"));
+          nameBDD = resultSet.getString("Name");
+          email = resultSet.getString("Email_adress");
         }
       }
-      resultSet.close();
-      statement.close();
+      person = new PersonDTO(nameBDD, email);
+
     } catch (SQLException e) {
       System.out.println("Erreur lors de la récupération des emails");
       System.out.println(e);

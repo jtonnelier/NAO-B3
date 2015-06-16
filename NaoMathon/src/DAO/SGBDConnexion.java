@@ -11,15 +11,15 @@ public class SGBDConnexion {
   /**
    * URL de connection
    */
-  private static String url = "jdbc:mysql://localhost/nao";
+  private static String url = "jdbc:mysql://sql4.freemysqlhosting.net:3306/sql480901";
   /**
    * Nom du user
    */
-  private static String user = "nao";
+  private static String user = "sql480901";
   /**
    * Mot de passe du user
    */
-  private static String passwd = "epsib3";
+  private static String passwd = "hW9*zG6*";
   /**
    * Objet Connection
    */
@@ -34,10 +34,13 @@ public class SGBDConnexion {
   public static Connection getInstance(){
     if(connect == null){
       try {
+        Class.forName("com.mysql.jdbc.Driver");
         connect = DriverManager.getConnection(url, user, passwd);
-        getInformationConnectivity();
+        //getInformationConnectivity();
       } catch (SQLException e) {
         System.out.println("Erreur lors de la connexion à la BDD");
+      } catch (ClassNotFoundException e) {
+        System.out.println("Bug de drivers");
       }
     }
     return connect;
