@@ -20,7 +20,7 @@ public class EmailDAO extends AbstractDAO{
     try {
       PreparedStatement statement = connection.prepareStatement("select * from emails");
       //statement.setString(1, name);
-      ResultSet resultSet = statement.executeQuery();
+      ResultSet resultSet = statement.executeQuery(this.GET_EMAIL_BY_NAME_QUERY);
       System.out.println(resultSet.getFetchSize());
       if(resultSet.getFetchSize() !=0) {
         while (resultSet.next()) {

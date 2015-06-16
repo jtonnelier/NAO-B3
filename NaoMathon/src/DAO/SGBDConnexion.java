@@ -11,7 +11,7 @@ public class SGBDConnexion {
   /**
    * URL de connection
    */
-  private static String url = "jdbc:mysql://127.0.0.1:3306/nao";
+  private static String url = "jdbc:mysql://localhost/nao";
   /**
    * Nom du user
    */
@@ -19,7 +19,7 @@ public class SGBDConnexion {
   /**
    * Mot de passe du user
    */
-  private static String passwd = "naonao";
+  private static String passwd = "epsib3";
   /**
    * Objet Connection
    */
