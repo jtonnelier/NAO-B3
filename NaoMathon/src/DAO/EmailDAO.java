@@ -12,7 +12,6 @@ public class EmailDAO extends AbstractDAO{
   private final String GET_ALL_EMAILS_INFORMATION_QUERY = "SELECT * FROM emails";
 
   public EmailDAO() throws ClassNotFoundException {
-    super();
   }
 
   public PersonDTO getEmailFromName(String name){
