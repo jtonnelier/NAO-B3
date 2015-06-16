@@ -7,6 +7,6 @@ import java.sql.Connection;
  */
 public abstract class AbstractDAO {
 
-  public Connection connection = SGBDConnexion.getInstance();;
+  public Connection connection = SGBDConnexion.getInstance();
 
 }
