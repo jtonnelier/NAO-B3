@@ -37,11 +37,23 @@ public class EmailSender {
     message.setSubject("NAOMathon: Votre photo");
     BodyPart messageBodyPart = new MimeBodyPart();
 
-    String MailMessage = "<html> Bonjour, <br /> " +
-      "Votre photo se trouve en pièce jointe. <br /><br />" +
-      "Cordialement, <br />" +
-      "AL Votre Photographe <br /> " +
-      "<img src=\"http://img11.hostingpics.net/pics/176043nao.jpg\"> </html>";
+    String MailMessage = "";
+    if(true){
+        MailMessage = "<html> Bonjour, <br /> " +
+        "Votre photo se trouve en pièce jointe. <br /><br />" +
+        "Cordialement, <br />" +
+        "AL Votre Photographe <br /> " +
+        "<img src=\"http://img11.hostingpics.net/pics/176043nao.jpg\"> </html>";
+    }
+    //Easter egg à mettre en place
+    else{
+      MailMessage = "<html> Bonjour, <br /> " +
+        "Votre photo étant ratée, je m'en suis personnellement chargé: <br /><br /><br />" +
+        "<img src=\"http://img11.hostingpics.net/thumbs/mini_730512trollNAO.jpg\"> <br /><br />" +
+        "Cordialement, <br />" +
+        "AL Votre Photographe <br /> </html>";
+    }
+
     messageBodyPart.setContent(MailMessage, "text/html; charset=utf-8");
 
     Multipart multipart = new MimeMultipart();
@@ -60,9 +72,10 @@ public class EmailSender {
       Transport tr = session.getTransport("smtps");
       tr.connect(host, from, Password);
       tr.sendMessage(message, message.getAllRecipients());
-      System.out.println("Mail Sent Successfully to" + emailDestination);
+      System.out.println("Mail Sent Successfully to " + emailDestination);
       tr.close();
     } catch (SendFailedException sfe) {
+      System.out.println("Erreur lors de l'envois de l'email ");
       System.out.println(sfe);
     }
   }
