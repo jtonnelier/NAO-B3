@@ -27,7 +27,7 @@ public class Programm {
       //Create Bundle Future
 
 
-      boolean ping = true; //tts.<Boolean>call("ping").get();
+      boolean ping = tts.<Boolean>call("ping").get();
       if (!ping) {
         System.out.println("Could not ping TTS");
       } else {
