@@ -16,10 +16,18 @@ public class Programm {
     try {
       System.out.println("FONCTION ON");
       Session session = new Session();
-      session.connect("tcp://" + NAO_IP + ":9559").sync(500, TimeUnit.MILLISECONDS);
-      Object tts = session.service("ALAudioPlayer");
+      Future<Void> future = session.connect("tcp://hal.local:9559");
+      future.get();
+      //Declare Variable Object
+      com.aldebaran.qimessaging.Object tts = null;
+      com.aldebaran.qimessaging.Object bm = null;
+      com.aldebaran.qimessaging.Object listen = null;
+      tts = session.service("ALAudioPlayer");
 
-      boolean ping = tts.<Boolean>call("ping").get();
+      //Create Bundle Future
+
+
+      boolean ping = true; //tts.<Boolean>call("ping").get();
       if (!ping) {
         System.out.println("Could not ping TTS");
       } else {
