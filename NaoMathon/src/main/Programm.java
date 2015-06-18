@@ -17,7 +17,7 @@ public class Programm {
       System.out.println("FONCTION ON");
       Session session = new Session();
       session.connect("tcp://" + NAO_IP + ":9559").sync(500, TimeUnit.MILLISECONDS);
-      Object tts = session.service("ALTextToSpeech");
+      Object tts = session.service("ALAudioPlayer");
 
       boolean ping = tts.<Boolean>call("ping").get();
       if (!ping) {
@@ -27,7 +27,8 @@ public class Programm {
       }
 
       System.out.println("Calling say");
-      tts.call("say", "Hello, world");
+      //tts.call("say", "Hello, world");
+      tts.call("playFile", "//home//cri.mp3");
     } catch (Exception e) {
       e.printStackTrace();
     }
