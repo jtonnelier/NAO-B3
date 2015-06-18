@@ -16,7 +16,7 @@ public class Programm {
     try {
       System.out.println("FONCTION ON");
       Session session = new Session();
-      Future<Void> future = session.connect("tcp://hal.local:9559");
+      Future<Void> future = session.connect("tcp://172.16.6.117:9559");
       future.get();
       //Declare Variable Object
       com.aldebaran.qimessaging.Object tts = null;
