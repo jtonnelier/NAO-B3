@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import com.aldebaran.qimessaging.*;
 import com.aldebaran.qimessaging.Object;
 import com.aldebaran.qimessaging.helpers.al.ALAudioPlayer;
+import com.aldebaran.qimessaging.helpers.al.ALMemory;
 import com.aldebaran.qimessaging.helpers.al.ALPhotoCapture;
 import com.aldebaran.qimessaging.helpers.al.ALTextToSpeech;
 
@@ -16,7 +17,8 @@ public class Programm {
   public static int NAO_PORT = 9559;
   private static ALTextToSpeech tts;
   private static ALAudioPlayer audioService;
-  private static ALPhotoCapture photoCapture;
+  private static com.aldebaran.qimessaging.Object photoCapture;
+
 
   public static void main (String Args[]){
     try {
@@ -26,15 +28,19 @@ public class Programm {
       //Declare Variable Object
       tts = new ALTextToSpeech(session);
       audioService = new ALAudioPlayer(session);
-      photoCapture = new ALPhotoCapture(session);
+      photoCapture = session.service("ALPhotoCapture");
+
+      String photoName = "naoMathon"; //Add name from dao
 
       tts.say("Test");
-      audioService.playFile("/home/epsi3/Bureau/test/cri.wav");
-      photoCapture.setPictureFormat("jpg");
-      photoCapture.takePicture("/home/epsi3/Bureau/test", "photo");
+      //Photo Capture
+      photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
+      photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
+      photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/recordings/cameras/", photoName, true}).get();
+
       //Create Bundle Future
     } catch (Exception e) {
-      e.printStackTrace();
+      System.out.println("Erreur lors de l'execution du programme");
     }
   }
 }
