@@ -42,7 +42,7 @@ public class EmailSender {
         MailMessage = "<html> Bonjour, <br /> " +
         "Votre photo se trouve en pièce jointe. <br /><br />" +
         "Cordialement, <br />" +
-        "AL Votre Photographe <br /> " +
+        "HAL Votre Photographe <br /> " +
         "<img src=\"http://img11.hostingpics.net/pics/176043nao.jpg\"> </html>";
     }
     //Easter egg à mettre en place
@@ -51,7 +51,7 @@ public class EmailSender {
         "Votre photo étant ratée, je m'en suis personnellement chargé: <br /><br /><br />" +
         "<img src=\"http://img11.hostingpics.net/thumbs/mini_730512trollNAO.jpg\"> <br /><br />" +
         "Cordialement, <br />" +
-        "AL Votre Photographe <br /> </html>";
+        "HAL Votre Photographe <br /> </html>";
     }
 
     messageBodyPart.setContent(MailMessage, "text/html; charset=utf-8");
