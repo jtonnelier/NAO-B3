@@ -38,7 +38,7 @@ public class EmailSender {
     BodyPart messageBodyPart = new MimeBodyPart();
 
     String MailMessage = "";
-    if(esterEgg){
+    if(!esterEgg){
         MailMessage = "<html> Bonjour, <br /> " +
         "Votre photo se trouve en pièce jointe. <br /><br />" +
         "Cordialement, <br />" +
