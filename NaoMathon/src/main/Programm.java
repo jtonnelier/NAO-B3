@@ -52,7 +52,7 @@ public class Programm {
       emailService = new EmailSender();
       statsDAO = new StatsDAO();
       ALMemory memoryProxy = new ALMemory(session);
-      
+
       String photoName = "naoMathon"; //Add name from dao
         tts.setVolume((float) 1.0);
         tts.say("Sourié je prends la photo");
@@ -63,7 +63,7 @@ public class Programm {
         int compteur = statsDAO.getCompteur();
 
         if(compteur%3 == 0 ){
-          tts.say("La photo est foiré, je t'envois un mail récapitulatif");
+          tts.say("La photo est raté, j'envois un email");
           PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
           emailService.emailSender(person.getEmail(), null, true);
           tts.say("L'email est envoyé, et pour le plaisir");
