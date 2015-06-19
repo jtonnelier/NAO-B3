@@ -37,13 +37,12 @@ public class Programm {
       tts = new ALTextToSpeech(session);
       audioService = new ALAudioPlayer(session);
       photoCapture = session.service("ALPhotoCapture");
-
-
+      emailDAO = new EmailDAO();
+      emailService = new EmailSender();
       String photoName = "naoMathon"; //Add name from dao
 
-      //audioService.playFile("/home/nao/recordings/cameras/cri.wav");
       //Photo Capture
-      tts.say("Arttention je prends une photo");
+      tts.say("Attention je prends une photo");
       photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
       photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
       photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/"+folderPhoto, photoName, true}).get();
@@ -53,7 +52,7 @@ public class Programm {
       PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
       emailService.emailSender(person.getEmail(), filePath);
       tts.say("L'email est envoyé, et pour le plaisir");
-      audioService.playFile("/home/nao/recordings/cameras/cri.wav");
+      audioService.playFile("/home/nao/recordings/cameras/castagne.wav");
 
       //Create Bundle Future
     } catch (Exception e) {
