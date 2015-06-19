@@ -71,7 +71,7 @@ public class Programm {
         }
         else{
           tts.say("Je t'envois la photo par email mon chou");
-          String filePath = ftpService.getImageFromNao("recordings/cameras/", photoName + ".jpg");
+          String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", photoName + ".jpg");
           PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
           emailService.emailSender(person.getEmail(), filePath, false);
           tts.say("L'email est envoyé, et pour le plaisir");
