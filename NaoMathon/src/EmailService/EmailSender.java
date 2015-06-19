@@ -20,9 +20,9 @@ public class EmailSender {
   final String from = "naomaton@gmail.com";
 
   public void sendEmail (String emailDestination) throws MessagingException {
-    emailSender(emailDestination, null);
+    emailSender(emailDestination, null, false);
   }
-  public void emailSender(String emailDestination, String filePath) throws MessagingException {
+  public void emailSender(String emailDestination, String filePath, boolean esterEgg) throws MessagingException {
     // Get system properties
     Properties props = System.getProperties();
     props.put("mail.smtp.host", host);
@@ -38,7 +38,7 @@ public class EmailSender {
     BodyPart messageBodyPart = new MimeBodyPart();
 
     String MailMessage = "";
-    if(true){
+    if(esterEgg){
         MailMessage = "<html> Bonjour, <br /> " +
         "Votre photo se trouve en pièce jointe. <br /><br />" +
         "Cordialement, <br />" +

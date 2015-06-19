@@ -17,7 +17,7 @@ public class StatsDAO extends AbstractDAO {
 
   public StatsDAO(){
   }
-  
+
   public int getCompteur(){
     int compteur = 0;
     try {

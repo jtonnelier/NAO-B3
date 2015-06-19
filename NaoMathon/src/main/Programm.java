@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import DAO.EmailDAO;
 import DAO.PersonDTO;
+import DAO.StatsDAO;
 import EmailService.EmailSender;
 import FTPService.FTPService;
 import com.aldebaran.qimessaging.*;
@@ -18,17 +19,26 @@ import com.aldebaran.qimessaging.helpers.al.ALTextToSpeech;
  */
 public class Programm {
 
+  /**
+   * Static connexion NAO
+   */
   public static String NAO_IP = "172.16.6.117";
   public static int NAO_PORT = 9559;
+  /**
+   * NAO utils
+   */
   private static ALTextToSpeech tts;
   private static ALAudioPlayer audioService;
   private static com.aldebaran.qimessaging.Object photoCapture;
+  /**
+   * Service connexion
+   */
   private static EmailSender emailService;
   private static FTPService ftpService = new FTPService("172.16.6.117");
   private static EmailDAO emailDAO;
-  private static ALMemoryProxy memoryProxy;
+  private static StatsDAO statsDAO;
 
-  private static String folderPhoto = "recordings/cameras/";
+  private static String folderPhoto = "recordings/cameras/naomathon/";
   public static void main (String Args[]){
     try {
       Session session = new Session();
@@ -40,31 +50,32 @@ public class Programm {
       photoCapture = session.service("ALPhotoCapture");
       emailDAO = new EmailDAO();
       emailService = new EmailSender();
+      statsDAO = new StatsDAO();
+      ALMemory memoryProxy = new ALMemory(session);
+
       String photoName = "naoMathon"; //Add name from dao
-      while(!memoryProxy.getData("FrontTactilTouched")) {
-        //Photo Capture
-        tts.say("Préparez-vous pour la photo");
-        Thread.sleep(1000);
-        tts.say("5");
-        Thread.sleep(1000);
-        tts.say("4");
-        Thread.sleep(1000);
-        tts.say("3");
-        Thread.sleep(1000);
-        tts.say("2");
-        Thread.sleep(1000);
-        tts.say("1");
+
         photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
         photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
         photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, photoName, true}).get();
+        int compteur = statsDAO.getCompteur();
 
-        tts.say("Je t'envois la photo par email mon chou");
-        String filePath = ftpService.getImageFromNao("recordings/cameras/", photoName + ".jpg");
-        PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
-        emailService.emailSender(person.getEmail(), filePath);
-        tts.say("L'email est envoyé, et pour le plaisir");
-        audioService.playFile("/home/nao/recordings/cameras/castagne.wav");
-      }
+        if(compteur%3 == 0 ){
+          tts.say("La photo est foiré, je t'envois un mail récapitulatif");
+          PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
+          emailService.emailSender(person.getEmail(), null, true);
+          tts.say("L'email est envoyé, et pour le plaisir");
+          audioService.playFile("/home/nao/recordings/cameras/naomathon/cri.wav");
+        }
+        else{
+          tts.say("Je t'envois la photo par email mon chou");
+          String filePath = ftpService.getImageFromNao("recordings/cameras/", photoName + ".jpg");
+          PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
+          emailService.emailSender(person.getEmail(), filePath, false);
+          tts.say("L'email est envoyé, et pour le plaisir");
+          audioService.playFile("/home/nao/recordings/cameras/naomathon/castagne.wav");
+        }
+      statsDAO.incrementCompteur();
 
       //Create Bundle Future
     } catch (Exception e) {
