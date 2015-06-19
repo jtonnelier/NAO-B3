@@ -52,12 +52,14 @@ public class Programm {
       emailService = new EmailSender();
       statsDAO = new StatsDAO();
       ALMemory memoryProxy = new ALMemory(session);
-
+      
       String photoName = "naoMathon"; //Add name from dao
-
+        tts.setVolume((float) 1.0);
+        tts.say("Sourié je prends la photo");
         photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
         photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
         photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, photoName, true}).get();
+        audioService.playFile("/home/nao/recordings/cameras/naomathon/flash.wav");
         int compteur = statsDAO.getCompteur();
 
         if(compteur%3 == 0 ){
