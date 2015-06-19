@@ -26,6 +26,7 @@ public class Programm {
   private static EmailSender emailService;
   private static FTPService ftpService = new FTPService("172.16.6.117");
   private static EmailDAO emailDAO;
+  private static ALMemoryProxy memoryProxy;
 
   private static String folderPhoto = "recordings/cameras/";
   public static void main (String Args[]){
@@ -40,19 +41,30 @@ public class Programm {
       emailDAO = new EmailDAO();
       emailService = new EmailSender();
       String photoName = "naoMathon"; //Add name from dao
+      while(!memoryProxy.getData("FrontTactilTouched")) {
+        //Photo Capture
+        tts.say("Préparez-vous pour la photo");
+        Thread.sleep(1000);
+        tts.say("5");
+        Thread.sleep(1000);
+        tts.say("4");
+        Thread.sleep(1000);
+        tts.say("3");
+        Thread.sleep(1000);
+        tts.say("2");
+        Thread.sleep(1000);
+        tts.say("1");
+        photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
+        photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
+        photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, photoName, true}).get();
 
-      //Photo Capture
-      tts.say("Attention je prends une photo");
-      photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
-      photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
-      photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/"+folderPhoto, photoName, true}).get();
-
-      tts.say("Je t'envois la photo par email mon chou");
-      String filePath = ftpService.getImageFromNao("recordings/cameras/", photoName +".jpg");
-      PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
-      emailService.emailSender(person.getEmail(), filePath);
-      tts.say("L'email est envoyé, et pour le plaisir");
-      audioService.playFile("/home/nao/recordings/cameras/castagne.wav");
+        tts.say("Je t'envois la photo par email mon chou");
+        String filePath = ftpService.getImageFromNao("recordings/cameras/", photoName + ".jpg");
+        PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
+        emailService.emailSender(person.getEmail(), filePath);
+        tts.say("L'email est envoyé, et pour le plaisir");
+        audioService.playFile("/home/nao/recordings/cameras/castagne.wav");
+      }
 
       //Create Bundle Future
     } catch (Exception e) {
