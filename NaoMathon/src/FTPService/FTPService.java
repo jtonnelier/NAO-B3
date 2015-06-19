@@ -1,5 +1,6 @@
 package FTPService;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.File;
@@ -44,6 +45,8 @@ public class FTPService {
       if (login) {
         System.out.println("Connection established...");
         client.changeWorkingDirectory(ftpPath);
+        client.setFileType(FTP.BINARY_FILE_TYPE);
+        client.setFileTransferMode(FTP.BINARY_FILE_TYPE);
         FileOutputStream fos = null;
         fos = new FileOutputStream(imgFolderPath+filename);
         boolean download = client.retrieveFile(filename,
