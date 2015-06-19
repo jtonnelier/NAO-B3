@@ -1,6 +1,6 @@
 package FTPService;
 
-import org.apache.commons.net.ftp.FTPClient;
+import it.sauronsoftware.ftp4j.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,9 +14,9 @@ public class FTPService {
 
   String server;
   int port = 21;
-  String user = "";
-  String pass = "";
-  String imgFolderPath = "C:/";
+  String user = "nao";
+  String pass = "HAL-2001";
+  String imgFolderPath = "/home/epsi3/Bureau/";
 
   public FTPService(String server){
     this.server = server;
@@ -34,31 +34,28 @@ public class FTPService {
 
     try {
       client.connect(server, port);
-      boolean login = client.login(user, pass);
+      client.login(user, pass);
 
-      if (login) {
-        System.out.println("Connexion FTP établie...");
-        client.changeWorkingDirectory(ftpPath);
-        File photo = new File(imgFolderPath+filename);
-        FileOutputStream fos = new FileOutputStream(photo);
-        photo.createNewFile();
-        boolean download = client.retrieveFile(filename, fos);
-        if (download) {
-          System.out.println("Fichier download correctement !");
-        } else {
-          System.out.println("Fichier non retrouvé sur le FTP");
-        }
-        // logout the user, returned true if logout successfully
-        boolean logout = client.logout();
-        if (logout) {
-          System.out.println("Connection close...");
-        }
-      } else {
-        System.out.println("Connection fail...");
-      };
+      System.out.println("Connexion FTP établie...");
+      client.changeDirectory("/home/ftpuser");
+      File photo = new File(imgFolderPath+filename);
+      client.download(filename, photo);
+
+      // logout the user
+      client.logout();
     } catch (IOException e) {
       System.out.println("Erreur lors de la récupération du fichier sur le FTP de NAO");
       System.out.println(e);
+    } catch (FTPIllegalReplyException e) {
+      System.out.println("Erreur lors de la connexion ftp");
+      e.printStackTrace();
+    } catch (FTPException e) {
+      e.printStackTrace();
+    } catch (FTPAbortedException e) {
+      System.out.println("Erreur lors du transfert du fichier sur le FTP de NAO");
+      e.printStackTrace();
+    } catch (FTPDataTransferException e) {
+      e.printStackTrace();
     }
     return this.imgFolderPath+filename;
   }
