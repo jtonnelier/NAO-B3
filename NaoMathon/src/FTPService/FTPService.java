@@ -44,7 +44,7 @@ public class FTPService {
 
     } catch (FTPException e1) {
       System.out.println("Fonction non problematique");
-      //e1.printStackTrace();
+      e1.printStackTrace();
     } catch (FileNotFoundException e1) {
       e1.printStackTrace();
     } catch (IOException e1) {
