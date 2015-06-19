@@ -1,11 +1,12 @@
 package FTPService;
 
-import it.sauronsoftware.ftp4j.*;
+import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.SocketException;
 
 /**
  * Created by Jocelyn on 18/06/2015.
@@ -33,29 +34,44 @@ public class FTPService {
     String completePath = ftpPath + "/" + filename;
 
     try {
-      client.connect(server, port);
-      client.login(user, pass);
+      // pass directory path on server to connect
+      client.connect(server);
 
-      System.out.println("Connexion FTP établie...");
-      client.changeDirectory("/home/ftpuser");
-      File photo = new File(imgFolderPath+filename);
-      client.download(filename, photo);
+      // pass username and password, returned true if authentication is
+      // successful
+      boolean login = client.login(user, pass);
 
-      // logout the user
-      client.logout();
+      if (login) {
+        System.out.println("Connection established...");
+        client.changeWorkingDirectory(ftpPath);
+        FileOutputStream fos = null;
+        fos = new FileOutputStream(imgFolderPath+filename);
+        boolean download = client.retrieveFile(filename,
+          fos);
+        if (download) {
+          System.out.println("File downloaded successfully");
+        } else {
+          System.out.println("Error in downloading file !");
+        }
+        // logout the user, returned true if logout successfully
+        boolean logout = client.logout();
+        if (logout) {
+          System.out.println("Fermeture connexion ftp");
+        }
+      } else {
+        System.out.println("Erreur lors du login");
+      }
+
+    } catch (SocketException e) {
+      e.printStackTrace();
     } catch (IOException e) {
-      System.out.println("Erreur lors de la récupération du fichier sur le FTP de NAO");
-      System.out.println(e);
-    } catch (FTPIllegalReplyException e) {
-      System.out.println("Erreur lors de la connexion ftp");
       e.printStackTrace();
-    } catch (FTPException e) {
-      e.printStackTrace();
-    } catch (FTPAbortedException e) {
-      System.out.println("Erreur lors du transfert du fichier sur le FTP de NAO");
-      e.printStackTrace();
-    } catch (FTPDataTransferException e) {
-      e.printStackTrace();
+    } finally {
+      try {
+        client.disconnect();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
     return this.imgFolderPath+filename;
   }
