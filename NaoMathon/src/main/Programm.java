@@ -55,6 +55,7 @@ public class Programm {
 
       String photoName = "naoMathon"; //Add name from dao
         tts.setVolume((float) 1.0);
+        tts.setLanguage("French");
         tts.say("Sourié je prends la photo");
         photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
         photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
