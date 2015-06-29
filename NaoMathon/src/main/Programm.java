@@ -16,9 +16,8 @@ public class Programm {
    */
   public static String NAO_IP = "172.16.6.117";
   public static int NAO_PORT = 9559;
-  public static ALRobotPosture robotPosture;
-  public static ALLeds leds;
-  public static ALMotion motion;
+
+
 
   public static void main (String Args[]) throws InterruptedException, CallError {
 
@@ -27,15 +26,7 @@ public class Programm {
       Future<Void> future = null;
       future = session.connect("tcp://" + NAO_IP + ":" + NAO_PORT);
       future.get();
-      leds = new ALLeds(session);
-      robotPosture = new ALRobotPosture(session);
-      motion = new ALMotion(session);
-      robotPosture.goToPosture("StandInit", (float) 1.0);
-      //motion.rest();
-      leds.rasta((float) 5.0);
-      motion.openHand("RHand");
-      motion.closeHand("RHand");
-      PhotoProgramm headProgramm = new PhotoProgramm(0, session);
+      PhotoProgramm headProgramm = new PhotoProgramm(1, session);
       headProgramm.takePhoto();
     } catch (Exception e) {
       e.printStackTrace();

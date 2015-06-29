@@ -7,9 +7,7 @@ import EmailService.EmailSender;
 import FTPService.FTPService;
 import com.aldebaran.qimessaging.CallError;
 import com.aldebaran.qimessaging.Session;
-import com.aldebaran.qimessaging.helpers.al.ALAudioPlayer;
-import com.aldebaran.qimessaging.helpers.al.ALMemory;
-import com.aldebaran.qimessaging.helpers.al.ALTextToSpeech;
+import com.aldebaran.qimessaging.helpers.al.*;
 
 import javax.mail.MessagingException;
 
@@ -25,6 +23,7 @@ public class PhotoProgramm {
   private static Session session;
   private static ALTextToSpeech tts;
   private static ALAudioPlayer audioService;
+  public static ALRobotPosture robotPosture;
   private static com.aldebaran.qimessaging.Object photoCapture;
   /**
    * Service connexion
@@ -35,6 +34,8 @@ public class PhotoProgramm {
   private static StatsDAO statsDAO;
   private static String folderPhoto = "recordings/cameras/naomathon/";
   private static String robotPhotoName = "naoMathon";
+  public static ALLeds leds;
+  public static ALMotion motion;
 
   public PhotoProgramm(int id, Session session){
     this.id = id;
@@ -54,6 +55,9 @@ public class PhotoProgramm {
       tts = new ALTextToSpeech(session);
       audioService = new ALAudioPlayer(session);
       photoCapture = session.service("ALPhotoCapture");
+      robotPosture = new ALRobotPosture(session);
+      leds = new ALLeds(session);
+      motion = new ALMotion(session);
       emailDAO = new EmailDAO();
       emailService = new EmailSender();
       statsDAO = new StatsDAO();
@@ -63,17 +67,20 @@ public class PhotoProgramm {
         person = emailDAO.getEmailByID(id);
       }
 
-      //Denut interaction robot
+      //Debut interaction robot
+      robotPosture.goToPosture("StandZero", (float) 1.0);
       tts.setVolume((float) 1.0);
       tts.setLanguage("French");
       tts.say("On se prépare pour la photo!");
       tts.say("3");
       tts.say("2");
       tts.say("1");
+      motion.openHand("RHand");
       photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
       photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
       photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, robotPhotoName, true}).get();
       audioService.playFile("/home/nao/recordings/cameras/naomathon/flash.wav");
+      motion.closeHand("RHand");
       int compteur = statsDAO.getCompteur();
 
       //Cas bumper enregistré on on envois un ID
@@ -102,6 +109,7 @@ public class PhotoProgramm {
         String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", robotPhotoName + ".jpg");
         tts.say("La photo est disponible sur la galerie a l'adresse naomathon point f r.");
       }
+      robotPosture.goToPosture("LyingBelly", (float) 1.0);
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (CallError callError) {
