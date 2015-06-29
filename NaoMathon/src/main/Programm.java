@@ -18,7 +18,6 @@ public class Programm {
   public static int NAO_PORT = 9559;
 
 
-
   public static void main (String Args[]) throws InterruptedException, CallError {
 
     try {
@@ -26,7 +25,7 @@ public class Programm {
       Future<Void> future = null;
       future = session.connect("tcp://" + NAO_IP + ":" + NAO_PORT);
       future.get();
-      PhotoProgramm headProgramm = new PhotoProgramm(1, session);
+      PhotoProgramm headProgramm = new PhotoProgramm(4, session);
       headProgramm.takePhoto();
     } catch (Exception e) {
       e.printStackTrace();

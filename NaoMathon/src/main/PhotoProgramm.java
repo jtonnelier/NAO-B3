@@ -109,6 +109,7 @@ public class PhotoProgramm {
         String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", robotPhotoName + ".jpg");
         tts.say("La photo est disponible sur la galerie a l'adresse naomathon point f r.");
       }
+      leds.rasta((float) 5.0);
       robotPosture.goToPosture("LyingBelly", (float) 1.0);
     } catch (InterruptedException e) {
       e.printStackTrace();
