@@ -21,7 +21,7 @@ public class Programm {
   public static void main (String Args[]) throws InterruptedException, CallError {
 
     try {
-      robotPosture.goToPosture("Stand", (float) 1.0);
+      //robotPosture.goToPosture("Stand", (float) 1.0);
       leds.rasta((float) 5.0);
       Session session = new Session();
       Future<Void> future = null;
