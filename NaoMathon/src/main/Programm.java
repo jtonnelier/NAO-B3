@@ -21,12 +21,14 @@ public class Programm {
   public static void main (String Args[]) throws InterruptedException, CallError {
 
     try {
-      //robotPosture.goToPosture("Stand", (float) 1.0);
-      leds.rasta((float) 5.0);
       Session session = new Session();
       Future<Void> future = null;
       future = session.connect("tcp://" + NAO_IP + ":" + NAO_PORT);
       future.get();
+      leds = new ALLeds(session);
+      robotPosture = new ALRobotPosture(session);
+      robotPosture.goToPosture("Stand", (float) 1.0);
+      leds.rasta((float) 5.0);
       PhotoProgramm headProgramm = new PhotoProgramm(0, session);
     } catch (Exception e) {
       e.printStackTrace();
