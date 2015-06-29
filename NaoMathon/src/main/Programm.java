@@ -2,6 +2,7 @@ package main;
 
 import com.aldebaran.qimessaging.*;
 import com.aldebaran.qimessaging.helpers.al.ALLeds;
+import com.aldebaran.qimessaging.helpers.al.ALMotion;
 import com.aldebaran.qimessaging.helpers.al.ALRobotPosture;
 
 
@@ -17,6 +18,7 @@ public class Programm {
   public static int NAO_PORT = 9559;
   public static ALRobotPosture robotPosture;
   public static ALLeds leds;
+  public static ALMotion motion;
 
   public static void main (String Args[]) throws InterruptedException, CallError {
 
@@ -27,7 +29,9 @@ public class Programm {
       future.get();
       leds = new ALLeds(session);
       robotPosture = new ALRobotPosture(session);
-      //robotPosture.goToPosture("Stand", (float) 1.0);
+      motion = new ALMotion(session);
+      robotPosture.goToPosture("Stand", (float) 1.0);
+      motion.rest();
       leds.rasta((float) 5.0);
       PhotoProgramm headProgramm = new PhotoProgramm(0, session);
       headProgramm.takePhoto();
