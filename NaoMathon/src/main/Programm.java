@@ -30,9 +30,11 @@ public class Programm {
       leds = new ALLeds(session);
       robotPosture = new ALRobotPosture(session);
       motion = new ALMotion(session);
-      robotPosture.goToPosture("Stand", (float) 1.0);
-      motion.rest();
+      robotPosture.goToPosture("StandInit", (float) 1.0);
+      //motion.rest();
       leds.rasta((float) 5.0);
+      motion.openHand("RHand");
+      motion.closeHand("RHand");
       PhotoProgramm headProgramm = new PhotoProgramm(0, session);
       headProgramm.takePhoto();
     } catch (Exception e) {
