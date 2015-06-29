@@ -27,9 +27,10 @@ public class Programm {
       future.get();
       leds = new ALLeds(session);
       robotPosture = new ALRobotPosture(session);
-      robotPosture.goToPosture("Stand", (float) 1.0);
+      //robotPosture.goToPosture("Stand", (float) 1.0);
       leds.rasta((float) 5.0);
       PhotoProgramm headProgramm = new PhotoProgramm(0, session);
+      headProgramm.takePhoto();
     } catch (Exception e) {
       e.printStackTrace();
     }
