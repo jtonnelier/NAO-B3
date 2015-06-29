@@ -111,6 +111,7 @@ public class PhotoProgramm {
       }
       leds.rasta((float) 5.0);
       robotPosture.goToPosture("LyingBelly", (float) 1.0);
+      motion.rest();
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (CallError callError) {
