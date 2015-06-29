@@ -80,6 +80,7 @@ public class PhotoProgramm {
       if(id != 0){
         if(compteur%3 == 0 ){
           tts.say("Désolé, " + person.getName() + "ta photo est raté");
+          String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", robotPhotoName + ".jpg");
           emailService.emailSender(person.getEmail(), null, true);
           tts.say("Je vous est envoyé un email recapitulatif.");
           tts.say("La photo est quand même disponible sur la galerie a l'adresse naomathon point f r.");
