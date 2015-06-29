@@ -75,6 +75,7 @@ public class FTPService {
       char c = chars[random.nextInt(chars.length)];
       sb.append(c);
     }
-    return sb.toString();
+    String fileName = sb.toString() + ".jpg";
+    return fileName;
   }
 }
