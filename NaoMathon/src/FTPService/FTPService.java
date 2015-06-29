@@ -4,6 +4,7 @@ import it.sauronsoftware.ftp4j.*;
 
 import java.io.*;
 import java.net.SocketException;
+import java.util.Random;
 
 /**
  * Created by Jocelyn on 18/06/2015.
@@ -14,7 +15,7 @@ public class FTPService {
   int port = 21;
   String user = "nao";
   String pass = "HAL-2001";
-  String imgFolderPath = "/home/epsi3/Bureau/test/";
+  String imgFolderPath = "/var/www/naomathon-gallery/gallery-images/";
 
   public FTPService(String server){
     this.server = server;
@@ -27,16 +28,18 @@ public class FTPService {
    */
   public String getImageFromNao(String ftpPath, String filename){
     FTPClient client = new FTPClient();
+    String downloadFileName = "";
 
     try {
       // pass directory path on server to connect
       client.connect(server);
       client.login(user, pass);
 
-      System.out.println("Connection established...");
+      System.out.println("Connection au FTP de Nao etablie...");
       client.changeDirectory(ftpPath);
-      client.download(filename, new java.io.File(imgFolderPath+filename));
-      System.out.println("Fichier telechargé...");
+      downloadFileName = this.generateRandomFileName();
+      client.download(filename, new java.io.File(imgFolderPath+downloadFileName));
+      System.out.println("Fichier telechargé: " + imgFolderPath+downloadFileName);
       client.deleteFile(filename);
 
       // logout the user, returned true if logout successfully
@@ -56,6 +59,21 @@ public class FTPService {
     } catch (FTPDataTransferException e1) {
       e1.printStackTrace();
     }
-    return this.imgFolderPath+filename;
+    return this.imgFolderPath+downloadFileName;
+  }
+
+  /*
+   * Fontion generant un nom de fichier
+   * random
+   */
+  public String generateRandomFileName(){
+    char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    StringBuilder sb = new StringBuilder();
+    Random random = new Random();
+    for (int i = 0; i < 20; i++) {
+      char c = chars[random.nextInt(chars.length)];
+      sb.append(c);
+    }
+    return sb.toString();
   }
 }

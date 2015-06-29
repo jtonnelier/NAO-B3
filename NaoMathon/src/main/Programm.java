@@ -39,7 +39,12 @@ public class Programm {
   private static StatsDAO statsDAO;
 
   private static String folderPhoto = "recordings/cameras/naomathon/";
-  public static void main (String Args[]){
+
+  /**
+   * Fonction principale pour prendre une photo via NAO
+   * @param id
+   */
+  public static void takePhoto(int id){
     try {
       Session session = new Session();
       Future<Void> future = session.connect("tcp://"+NAO_IP +":"+NAO_PORT);
@@ -54,35 +59,51 @@ public class Programm {
       ALMemory memoryProxy = new ALMemory(session);
 
       String photoName = "naoMathon"; //Add name from dao
-        tts.setVolume((float) 1.0);
-        tts.setLanguage("French");
-        tts.say("Sourié je prends la photo");
-        photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
-        photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
-        photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, photoName, true}).get();
-        audioService.playFile("/home/nao/recordings/cameras/naomathon/flash.wav");
-        int compteur = statsDAO.getCompteur();
+      tts.setVolume((float) 1.0);
+      tts.setLanguage("French");
+      tts.say("On se prépare pour la photo!");
+      tts.say("3");
+      tts.say("2");
+      tts.say("1");
+      photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
+      photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
+      photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, photoName, true}).get();
+      audioService.playFile("/home/nao/recordings/cameras/naomathon/flash.wav");
+      int compteur = statsDAO.getCompteur();
 
+      //Cas de la detection on on envois un ID
+      if(id == 0){
         if(compteur%3 == 0 ){
-          tts.say("La photo est raté, j'envois un email");
-          PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
+          tts.say("Photo raté, désolé");
+          PersonDTO person = emailDAO.getEmailByID(id);
           emailService.emailSender(person.getEmail(), null, true);
-          tts.say("L'email est envoyé, et pour le plaisir");
+          tts.say("L'email est envoyé.");
           audioService.playFile("/home/nao/recordings/cameras/naomathon/cri.wav");
         }
         else{
-          tts.say("Je t'envois la photo par email mon chou");
+          tts.say("Je vous envois la photo par email");
           String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", photoName + ".jpg");
           PersonDTO person = emailDAO.getEmailFromName("Jocelyn");
           emailService.emailSender(person.getEmail(), filePath, false);
-          tts.say("L'email est envoyé, et pour le plaisir");
+          tts.say("L'email est bien envoyé.");
           audioService.playFile("/home/nao/recordings/cameras/naomathon/castagne.wav");
         }
-      statsDAO.incrementCompteur();
+        statsDAO.incrementCompteur();
+      }
+      //Cas sans ID, par touch sur bumper
+      else{
+        tts.say("Transfert de la photo sur la galerie");
+        String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", photoName + ".jpg");
+        tts.say("La photo est disponible sur la galerie a l'adresse naomathon point f r.");
+      }
 
       //Create Bundle Future
     } catch (Exception e) {
       System.out.println("Erreur lors de l'execution du programme");
     }
+  }
+
+  public static void main (String Args[]){
+    takePhoto(0);
   }
 }
