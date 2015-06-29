@@ -43,6 +43,7 @@ public class EmailDAO extends AbstractDAO{
   public PersonDTO getEmailByID(int id){
     PersonDTO person = null;
     try {
+      System.out.println("Debut getEmailByID");
       PreparedStatement statement = connection.prepareStatement(GET_EMAIL_BY_ID_QUERY);
       statement.setInt(1, id);
       ResultSet resultSet = statement.executeQuery();
@@ -56,7 +57,7 @@ public class EmailDAO extends AbstractDAO{
         }
       }
       person = new PersonDTO(nameBDD, email);
-
+      System.out.println("Mail de " + person.getName() +" récupere: " + person.getEmail());
     } catch (SQLException e) {
       System.out.println("Erreur lors de la récupération des emails");
       System.out.println(e);

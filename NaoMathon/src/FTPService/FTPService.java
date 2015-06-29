@@ -44,6 +44,7 @@ public class FTPService {
 
       // logout the user, returned true if logout successfully
       client.logout();
+      System.out.println("Deconnexion du FTP: OK ");
 
     } catch (FTPException e1) {
       System.out.println("Fonction non problematique");
