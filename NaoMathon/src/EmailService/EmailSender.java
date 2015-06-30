@@ -56,7 +56,6 @@ public class EmailSender {
 
     Multipart multipart = new MimeMultipart();
     multipart.addBodyPart(messageBodyPart);
-    System.out.println("DEBUG EMAIL: " + filePath);
     if (filePath != null) {
       messageBodyPart = new MimeBodyPart();
       DataSource source = new FileDataSource(filePath);

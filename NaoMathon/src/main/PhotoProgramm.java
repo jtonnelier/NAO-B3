@@ -86,9 +86,9 @@ public class PhotoProgramm {
       tts.say("3");
       tts.say("2");
       tts.say("1");
-      motion.openHand("RHand");
       photoCapture.call("setPictureFormat", new java.lang.Object[]{"jpg"}).get();
       photoCapture.call("setResolution", new java.lang.Object[]{2}).get();
+      motion.openHand("RHand");
       photoCapture.call("takePicture", new java.lang.Object[]{"/home/nao/" + folderPhoto, robotPhotoName, true}).get();
       audioService.playFile("/home/nao/recordings/cameras/naomathon/flash.wav");
       motion.closeHand("RHand");
