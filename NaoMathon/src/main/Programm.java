@@ -35,7 +35,7 @@ public class Programm {
       PhotoProgramm leftFeetProgramm = new PhotoProgramm(2, session);
       PhotoProgramm rightFeetProgramm = new PhotoProgramm(4, session);
       memory = session.service("ALMemory");
-      Object headSubscriber = memory.<Object>call("subscriber", "FrontTactilTouched").get();
+      Object headSubscriber = memory.<Object>call("subscriber", "MiddleTactilTouched").get();
       headSubscriber.connect("signal::(m)", "onTouch::(m)", headProgramm);
       Object rightFeetSubscriber = memory.<Object>call("subscriber", "RightBumperPressed").get();
       rightFeetSubscriber.connect("signal::(m)", "onTouch::(m)", rightFeetProgramm);
