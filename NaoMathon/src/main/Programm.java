@@ -2,6 +2,7 @@ package main;
 
 import com.aldebaran.qimessaging.*;
 import com.aldebaran.qimessaging.helpers.al.ALLeds;
+import com.aldebaran.qimessaging.helpers.al.ALMemory;
 import com.aldebaran.qimessaging.helpers.al.ALMotion;
 import com.aldebaran.qimessaging.helpers.al.ALRobotPosture;
 
@@ -16,7 +17,7 @@ public class Programm {
    */
   public static String NAO_IP = "172.16.6.117";
   public static int NAO_PORT = 9559;
-
+  public static ALMemory memory;
 
   public static void main (String Args[]) throws InterruptedException, CallError {
 
@@ -25,8 +26,12 @@ public class Programm {
       Future<Void> future = null;
       future = session.connect("tcp://" + NAO_IP + ":" + NAO_PORT);
       future.get();
-      PhotoProgramm headProgramm = new PhotoProgramm(4, session);
-      headProgramm.takePhoto();
+      PhotoProgramm headProgramm = new PhotoProgramm(0, session);
+      PhotoProgramm centralButtonProgramm = new PhotoProgramm(1, session);
+      PhotoProgramm leftFeetProgramm = new PhotoProgramm(2, session);
+      PhotoProgramm rightFeetProgramm = new PhotoProgramm(4, session);
+      memory.subscribeToEvent("FrontTactilTouched", "onTouch", headProgramm);
+      //headProgramm.takePhoto();
     } catch (Exception e) {
       e.printStackTrace();
     }
