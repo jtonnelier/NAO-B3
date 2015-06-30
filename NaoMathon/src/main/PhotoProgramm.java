@@ -43,7 +43,7 @@ public class PhotoProgramm {
   }
 
   public void onTouch(java.lang.Object value) {
-    if(this.id != 2){
+    if(this.id == 2){
       int data = (Integer) value;
       if (data == 1.0) {
         System.out.println("Touch detected");
