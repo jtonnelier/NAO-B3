@@ -32,22 +32,26 @@ public class Programm {
       future.get();
       //Creation des différents programmes
       PhotoProgramm headProgramm = new PhotoProgramm(0, session);
-      PhotoProgramm centralButtonProgramm = new PhotoProgramm(1, session);
+      PhotoProgramm frontTactilProgramm = new PhotoProgramm(1, session);
       PhotoProgramm leftFeetProgramm = new PhotoProgramm(2, session);
       PhotoProgramm rightFeetProgramm = new PhotoProgramm(3, session);
 
       //Insertion des evenements dans NAO
       memory = session.service("ALMemory");
+      //Middle head No email associated
       Object headSubscriber = memory.<Object>call("subscriber", "MiddleTactilTouched").get();
       headSubscriber.connect("signal::(m)", "onTouch::(m)", headProgramm);
+      //Front head, emailId 1 associated
       Object frontTactilSubsciber = memory.<Object>call("subscriber", "FrontTactilTouched").get();
-      headSubscriber.connect("signal::(m)", "onTouch::(m)", headProgramm);
-      Object leftFeetSubscriber = memory.<Object>call("subscriber", "RightBumperPressed").get();
+      frontTactilSubsciber.connect("signal::(m)", "onTouch::(m)", frontTactilProgramm);
+      //Left Feet, email 2 associated
+      Object leftFeetSubscriber = memory.<Object>call("subscriber", "LeftBumperPressed").get();
       leftFeetSubscriber.connect("signal::(m)", "onTouch::(m)", leftFeetProgramm);
+      //right Feet, email 3 associated
       Object rightFeetSubscriber = memory.<Object>call("subscriber", "RightBumperPressed").get();
       rightFeetSubscriber.connect("signal::(m)", "onTouch::(m)", rightFeetProgramm);
-      //Lancement de l'applcation
-      System.out.println("Démarrage de NAOMaton effecuté...");
+      //Lancement de l'application
+      System.out.println("Démarrage de NAOMaton effecuté");
       application.run();
     } catch (Exception e) {
       e.printStackTrace();
