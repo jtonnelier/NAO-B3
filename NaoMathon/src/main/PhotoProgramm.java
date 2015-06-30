@@ -91,7 +91,7 @@ public class PhotoProgramm {
           tts.say("Désolé, " + person.getName() + "ta photo est raté");
           String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", robotPhotoName + ".jpg");
           emailService.emailSender(person.getEmail(), null, true);
-          tts.say("Je vous est envoyé un email recapitulatif.");
+          tts.say("Les détails sont dans l'email que je t'ai envoyé.");
           tts.say("La photo est quand même disponible sur la galerie a l'adresse naomathon point f r.");
           audioService.playFile("/home/nao/recordings/cameras/naomathon/cri.wav");
         }
@@ -112,8 +112,8 @@ public class PhotoProgramm {
         tts.say("La photo est disponible sur la galerie a l'adresse naomathon point f r.");
       }
       leds.rasta((float) 5.0);
-      robotPosture.goToPosture("LyingBelly", (float) 1.0);
-      motion.rest();
+      //robotPosture.goToPosture("LyingBelly", (float) 1.0);
+      //motion.rest();
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (CallError callError) {
