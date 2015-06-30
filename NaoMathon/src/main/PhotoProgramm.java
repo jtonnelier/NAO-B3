@@ -45,6 +45,7 @@ public class PhotoProgramm {
   public void onTouch(java.lang.Object value) {
     float data = (Float) value;
     if (data == 1.0) {
+      System.out.println("Touch detected");
       this.takePhoto();
     }
   }

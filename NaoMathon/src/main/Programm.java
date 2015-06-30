@@ -35,13 +35,14 @@ public class Programm {
       PhotoProgramm leftFeetProgramm = new PhotoProgramm(2, session);
       PhotoProgramm rightFeetProgramm = new PhotoProgramm(4, session);
       memory = session.service("ALMemory");
-      Object subscriber = memory.<Object>call("subscriber", "FrontTactilTouched").get();
-      subscriber.connect("signal::(m)", "onTouch::(m)", headProgramm);
+      Object headSubscriber = memory.<Object>call("subscriber", "FrontTactilTouched").get();
+      headSubscriber.connect("signal::(m)", "onTouch::(m)", headProgramm);
+      Object rightFeetSubscriber = memory.<Object>call("subscriber", "RightBumperPressed").get();
+      rightFeetSubscriber.connect("signal::(m)", "onTouch::(m)", rightFeetProgramm);
       application.run();
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
   public static void main (String Args[]) throws Exception {
     Programm programmePrincipal = new Programm();
