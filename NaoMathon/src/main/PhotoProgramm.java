@@ -102,7 +102,7 @@ public class PhotoProgramm {
           emailService.emailSender(person.getEmail(), null, true);
           tts.say("Les détails sont dans l'email que je t'ai envoyé.");
           tts.say("La photo est quand même disponible sur la galerie a l'adresse naomathon point f r.");
-          audioService.playFile("/home/nao/recordings/cameras/naomathon/cri.wav");
+          audioService.playFile("/home/nao/recordings/cameras/naomathon/castagne.wav");
         }
         else{
           tts.say(person.getName() + "Je t'envois la photo par email");
@@ -110,7 +110,6 @@ public class PhotoProgramm {
           emailService.emailSender(person.getEmail(), filePath, false);
           tts.say("L'email est bien envoyé.");
           tts.say("La photo est également disponible sur la galerie a l'adresse naomathon point f r.");
-          audioService.playFile("/home/nao/recordings/cameras/naomathon/castagne.wav");
         }
         statsDAO.incrementCompteur();
       }
