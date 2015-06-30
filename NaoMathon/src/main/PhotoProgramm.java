@@ -70,6 +70,7 @@ public class PhotoProgramm {
 
       //Debut interaction robot
       robotPosture.goToPosture("StandZero", (float) 1.0);
+      motion.rest();
       tts.setVolume((float) 1.0);
       tts.setLanguage("French");
       tts.say("On se prépare pour la photo!");
