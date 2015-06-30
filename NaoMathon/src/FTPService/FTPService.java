@@ -15,7 +15,7 @@ public class FTPService {
   int port = 21;
   String user = "nao";
   String pass = "HAL-2001";
-  String imgFolderPath = "/var/www/naomathon-gallery/gallery-images/";
+  String imgFolderPath = "/home/epsi3/Bureau/gallery-images/";
 
   public FTPService(String server){
     this.server = server;
