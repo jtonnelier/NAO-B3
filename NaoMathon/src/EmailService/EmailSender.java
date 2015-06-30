@@ -78,6 +78,7 @@ public class EmailSender {
     try {
       Transport tr = session.getTransport("smtps");
       tr.connect(host, from, Password);
+      Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
       tr.sendMessage(message, message.getAllRecipients());
       System.out.println("Mail Sent Successfully to " + emailDestination);
       tr.close();
