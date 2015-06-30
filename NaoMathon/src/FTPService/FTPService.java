@@ -39,7 +39,6 @@ public class FTPService {
       client.changeDirectory(ftpPath);
       downloadFileName = this.generateRandomFileName();
       client.download(filename, new java.io.File(imgFolderPath+downloadFileName));
-      System.out.println("Fichier telechargé: " + imgFolderPath+downloadFileName);
       client.deleteFile(filename);
 
       // logout the user, returned true if logout successfully
@@ -60,7 +59,8 @@ public class FTPService {
     } catch (FTPDataTransferException e1) {
       e1.printStackTrace();
     }
-    return this.imgFolderPath+downloadFileName;
+    System.out.println("Fichier download in: " + imgFolderPath+downloadFileName);
+    return imgFolderPath+downloadFileName;
   }
 
   /*
