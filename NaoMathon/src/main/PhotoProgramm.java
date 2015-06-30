@@ -43,10 +43,19 @@ public class PhotoProgramm {
   }
 
   public void onTouch(java.lang.Object value) {
-    float data = (Float) value;
-    if (data == 1.0) {
-      System.out.println("Touch detected");
-      this.takePhoto();
+    if(this.id != 2){
+      int data = (Integer) value;
+      if (data == 1.0) {
+        System.out.println("Touch detected");
+        this.takePhoto();
+      }
+    }
+    else{
+      float data = (Float) value;
+      if (data == 1.0) {
+        System.out.println("Touch detected");
+        this.takePhoto();
+      }
     }
   }
   public void takePhoto(){
@@ -70,7 +79,7 @@ public class PhotoProgramm {
 
       //Debut interaction robot
       robotPosture.goToPosture("StandZero", (float) 1.0);
-      motion.rest();
+      //motion.rest();
       tts.setVolume((float) 1.0);
       tts.setLanguage("French");
       tts.say("On se prépare pour la photo!");
@@ -111,9 +120,11 @@ public class PhotoProgramm {
         String filePath = ftpService.getImageFromNao("recordings/cameras/naomathon/", robotPhotoName + ".jpg");
         tts.say("La photo est disponible sur la galerie a l'adresse naomathon point f r.");
       }
+      robotPosture.goToPosture("SitRelax", (float) 1.0);
       leds.rasta((float) 5.0);
       //robotPosture.goToPosture("LyingBelly", (float) 1.0);
-      //motion.rest();
+      motion.rest();
+      System.out.println("Programme photo terminé");
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (CallError callError) {
