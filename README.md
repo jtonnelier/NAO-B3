@@ -1,10 +1,7 @@
 # NAOMATHON #
 
-### Acces Base de données###
+Projet B3 Nao EPSI Nantes
 
-* Host: sql4.freemysqlhosting.net
-* Database name: sql480901
-* Database user: sql480901
-* Database password: hW9\*zG6\*
-* Port number: 3306
-* phpMyAdmin: http://www.phpmyadmin.co
+Programme NAO, prenant une photo depuis la caméra Frontale de NAO puis la récupère via FTP sur la memoire interne du NAO.
+
+Cette photo est envoyé par mail (renseigné via l'interface présente dans NAO-gallery).
